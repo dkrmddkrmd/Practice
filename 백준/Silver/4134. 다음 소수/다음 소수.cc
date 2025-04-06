@@ -1,31 +1,35 @@
 #include <iostream>
 #include <cmath>
 using namespace std;
-typedef long long ll;
 
-bool IsSosu(ll n)
-{
-	if (n < 2) return false;
-	int sqrtN = sqrt(n);
-	for (ll i = 2; i <= sqrtN ; i++)
-		if (n % i == 0) return false;
+bool isPrime(long long n) {
+	if (n < 2)
+		return false;
+	int num = sqrt(n);
+	for (long long i = 2; i <= num; i++) {
+		if (n % i == 0)
+			return false;
+	}
 	return true;
 }
 
-int main()
-{
-	cin.tie(0);
-	cout.tie(0);
-	ios::sync_with_stdio(0);
+int main() {
+	ios::sync_with_stdio(false);
+	cin.tie(NULL);
 
-	int tk;
-	cin >> tk;
-	for (int t = 0; t < tk; t++) {
-		ll n;
-		cin >> n;
-		while (!IsSosu(n)) {
-			n++;
+	long long n;
+	cin >> n;
+	long long num;
+	for (long long i = 0; i < n; i++) {
+		cin >> num;
+		for (long long j = num; ; j++) {
+			if (isPrime(j) == true) {
+				cout << j << "\n";
+				break;
+			}
 		}
-		cout << n << '\n';
 	}
+
+
+	return 0;
 }
