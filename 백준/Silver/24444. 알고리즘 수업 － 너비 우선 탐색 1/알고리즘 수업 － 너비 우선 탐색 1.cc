@@ -29,6 +29,9 @@ void bfs(int node) {
 }
 
 int main() {
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+
 	int N, M, R;
 	cin >> N >> M >> R;
 
