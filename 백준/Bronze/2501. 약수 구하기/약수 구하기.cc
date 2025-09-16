@@ -1,30 +1,28 @@
-#include<algorithm>
-#include<cstdlib>
 #include<iostream>
-#include<string>
+#include<vector>
+#include<cmath>
 
 using namespace std;
 
-int main(void) {
-	cin.tie(NULL);
+int main() {
 	ios::sync_with_stdio(false);
+	cin.tie(NULL);
+	
+	int N, K;
+	cin >> N >> K;
+	int nowAns = 0;
 
-	int a, b;
-	cin >> a >> b;
-	int n = 0, t = 0;
-	for (int i = 1; i <= a; i++) {
-		if (a % i == 0)
-			n++;
-		if (n == b) {
-			cout << i;
-			t = 1;
-			break;
+	for (int i = 1; i <= N; i++) {
+		if (N % i == 0) {
+			nowAns++;
+			if (nowAns == K) {
+				cout << i;
+				return 0;
+			}
 		}
 	}
 
-	if (t == 0)
-		cout << 0;
-
+	cout << 0;
 
 	return 0;
 }
