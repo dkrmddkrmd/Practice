@@ -1,51 +1,52 @@
-#include<iostream>
-#include<algorithm>
-#include<cstdlib>
-#include<string>
+#include <iostream>
+#include<vector>
 
 using namespace std;
 
-int main(void) {
-	cin.tie(NULL);
+int main() {
 	ios::sync_with_stdio(false);
+	cin.tie(NULL);
+
+	// 65 97
 
 	string a;
 	cin >> a;
-	int b = a.length();
-	for (int i = 0; i < b; i++)
-		a[i] = tolower(a[i]);
 
-	int arr[26];
-	for (int i = 0; i < 26; i++)
-		arr[i] = 0;
+	vector<int> v(26, 0);
 
-	for (int i = 0; i < b; i++) {
-		int c = a[i] - 97;
-		arr[c]++;
-	}
+	int len = a.size();
+	for (int i = 0; i < len; i++) {
+		int now = a[i] - 0;
+		if (now >= 65 && now <= 91) {
+			v[now - 65]++;
+		}
+		else {
+			v[now - 97]++;
+		}
+ 	} 
 
-	int max = -1;
-	int charac = 0;
-	int count = -1;
-
+	int high = -1;
+	int spell;
+	bool isSame = false;
 	for (int i = 0; i < 26; i++) {
-		if (arr[i] > max) {
-			max = arr[i];
-			count = 0;
-			charac = i;
+		if (v[i] > high) {
+			high = v[i];
+			spell = i;
+			isSame = false;
 		}
-		else if (arr[i] == max) {
-			count++;
-		}
+		else if (v[i] == high)
+			isSame = true;
 	}
 
-	if (count == 0) {
-		char d = 'a' + charac;
-		d = toupper(d);
-		cout << d;
-	}
-	else
+	
+
+	if (isSame) {
 		cout << "?";
+		return 0;
+	}
+	else {
+		cout << char('A' + spell);
+	}
 
 	return 0;
 }
