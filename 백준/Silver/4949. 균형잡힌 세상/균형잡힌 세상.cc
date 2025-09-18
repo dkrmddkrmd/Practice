@@ -1,6 +1,6 @@
-#include <iostream>
-#include <string>
-#include <stack>
+#include<iostream>
+#include<stack>
+#include<string>
 
 using namespace std;
 
@@ -8,58 +8,61 @@ int main() {
 	ios::sync_with_stdio(false);
 	cin.tie(NULL);
 
-	while (true) {
-		string str;
-		getline(cin, str);
-		if (str == ".")
-			return 0;
-		int strSize = str.size();
-		stack<char> left;
+	string s;
+	getline(cin, s);
+	do {
+		stack<char> s1;
+		bool isOk = true;
 
-		bool isValid = true;
-		for (int i = 0; i < strSize; i++) {
-			if (str[i] == '(' || str[i] == '[') {
-				left.push(str[i]);
-				continue;
-			}
-			else if (str[i] == ')') {
-				if (left.empty()) {
-					isValid = false;
+		for (auto ch : s) {
+			switch (ch) {
+			case '(':
+				s1.push(ch);
+				break;
+			case ')':
+				if (s1.empty()) {
+					isOk = false;
 					break;
 				}
-				char c = left.top();
-				left.pop();
-				if (c == '(')
-					continue;
 				else {
-					isValid = false;
+					if (s1.top() != '(') {
+						isOk = false;
+						break;
+					}
+					s1.pop();
+				}
+				break;
+			case '[':
+				s1.push(ch);
+				break;
+			case ']':
+				if (s1.empty()) {
+					isOk = false;
 					break;
 				}
-			}
-			else if (str[i] == ']') {
-				if (left.empty()) {
-					isValid = false;
-					break;
-				}
-				char c = left.top();
-				left.pop();
-				if (c == '[')
-					continue;
 				else {
-					isValid = false;
-					break;
+					if (s1.top() != '[') {
+						isOk = false;
+						break;
+					}
+					s1.pop();
 				}
+				break;
+			default:
+				break;
 			}
+
+			if (!isOk)
+				break;
 		}
-		if (!left.empty())
-			isValid = false;
 
-		if (isValid)
-			cout << "yes" << "\n";
-		else
+		if (!isOk || !s1.empty())
 			cout << "no" << "\n";
-	}
-	
+		else
+			cout << "yes" << "\n";
+
+		getline(cin, s);
+	} while (s != ".");
 
 	return 0;
 }
