@@ -1,5 +1,5 @@
-#include <iostream>
-#include <string>
+#include<iostream>
+#include<stack>
 
 using namespace std;
 
@@ -8,28 +8,30 @@ int main() {
 	cin.tie(NULL);
 
 	int n;
+	string str;
 	cin >> n;
 	while (n--) {
-		string s;
-		cin >> s;
-		int mySize = s.size();
-		int isVps = 0;
-		bool isReverse = false;
-		for (int i = 0; i < mySize; i++) {
-			if (s[i] == '(')
-				isVps++;
+		stack<char> s;
+		cin >> str;
+
+		bool isRight = true;
+		for (int i = 0; i < str.size(); i++) {
+			if (str[i] == '(') {
+				s.push('(');
+			}
 			else {
-				isVps--;
-				if (isVps < 0) {
-					isReverse = true;
+				if (s.empty()) {
+					isRight = false;
 					break;
 				}
+				s.pop();
 			}
 		}
-		if (isVps == 0 && !isReverse)
-			cout << "YES" << "\n";
-		else
+
+		if (!s.empty() || !isRight)
 			cout << "NO" << "\n";
+		else
+			cout << "YES" << "\n";
 	}
 
 	return 0;
