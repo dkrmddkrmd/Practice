@@ -1,46 +1,50 @@
-#include <iostream>
-#include <vector>
-#include <algorithm>
+#include<iostream>
+#include<vector>
+#include<stack>
+#include<algorithm>
 
 using namespace std;
 
-vector<vector<int>> nodes;
-vector<int> visited;
-int order = 1;
+vector<int> order;
+vector<vector<int>> edge;
+int nowOrder = 1;
 
-void dfs(int node) {
-    visited[node] = order++;
+void dfs(int n) {
+	order[n] = nowOrder++;
 
-    for (int next : nodes[node]) {
-        if (visited[next] == 0)
-            dfs(next);
-    }
+	for (auto a : edge[n]) {
+		if (order[a] == 0) {
+			dfs(a);
+		}
+	}
 }
 
 int main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
+	ios::sync_with_stdio(false);
+	cin.tie(NULL);
 
-    int N, M, R;
-    cin >> N >> M >> R;
+	int N, M, R;
+	cin >> N >> M >> R;
 
-    nodes.resize(N + 1);
-    visited.resize(N + 1, 0);
+	order.assign(N + 1, 0);
+	edge.assign(N + 1, vector<int>());
 
-    for (int i = 0; i < M; ++i) {
-        int u, v;
-        cin >> u >> v;
-        nodes[u].push_back(v);
-        nodes[v].push_back(u);
-    }
+	int i, j;
+	while (M--) {
+		cin >> i >> j;
+		edge[i].push_back(j);
+		edge[j].push_back(i);
+	}
 
-    for (int i = 1; i <= N; ++i)
-        sort(nodes[i].begin(), nodes[i].end());
+	for (int i = 1; i <= N; i++) {
+		sort(edge[i].begin(), edge[i].end());
+	}
 
-    dfs(R);
+	dfs(R);
 
-    for (int i = 1; i <= N; ++i)
-        cout << visited[i] << "\n";
+	for (int i = 1; i <= N; i++) {
+		cout << order[i] << "\n";
+	}
 
-    return 0;
+	return 0;
 }
