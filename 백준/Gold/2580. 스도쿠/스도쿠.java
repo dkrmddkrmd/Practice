@@ -15,7 +15,6 @@ class Point{
 public class Main{
     static int[][] board;
     static List<Point> points = new ArrayList<>();
-    static boolean isAns = false;
 
     static boolean sdoku(int num){
         // 모든 빈칸을 채웠으면 성공!
@@ -42,7 +41,7 @@ public class Main{
                 }
 
                 // 4. (실패하고 돌아왔을 때) 놓았던 숫자를 다시 지운다 (백트래킹).
-                board[row][col] = 0;
+                //board[row][col] = 0;
             }
         }
 
@@ -73,18 +72,11 @@ public class Main{
 
     public static void  main(String[] args) throws  Exception{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
 
         board = new int[9][9];
 
         for(int i = 0; i < 9; i++){
-            board[0][i] = Integer.parseInt(st.nextToken());
-            if(board[0][i] == 0)
-                points.add(new Point(0, i));
-        }
-
-        for(int i = 1; i < 9; i++){
-            st = new StringTokenizer(br.readLine());
+            StringTokenizer st = new StringTokenizer(br.readLine());
             for(int j = 0; j < 9; j++){
                 board[i][j] = Integer.parseInt(st.nextToken());
                 if(board[i][j] == 0)
