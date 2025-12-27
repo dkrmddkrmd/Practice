@@ -6,29 +6,25 @@ public class Main{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
 
-        int n, m;
-        Set<Integer> mySet = new HashSet<>();
+        int N = Integer.parseInt(st.nextToken());
+        Set<Integer> s = new HashSet<>();
 
-        n = Integer.parseInt(st.nextToken());
         st = new StringTokenizer(br.readLine());
-        while(n-- > 0){
-            int nowNum = Integer.parseInt(st.nextToken());
-            mySet.add(nowNum);
+        for(int i = 0; i < N; i++){
+            int num = Integer.parseInt(st.nextToken());
+            s.add(num);
         }
 
-        StringBuilder sb = new StringBuilder();
-
-        n = Integer.parseInt(br.readLine());
+        int M = Integer.parseInt(br.readLine());
         st = new StringTokenizer(br.readLine());
-
-        while (n-->0){
-            boolean nowAns = mySet.contains(Integer.parseInt(st.nextToken()));
-            if(nowAns){
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < M; i++){
+            int num = Integer.parseInt(st.nextToken());
+            if(s.contains(num)){
                 sb.append("1 ");
             }
-            else{
+            else
                 sb.append("0 ");
-            }
         }
 
         System.out.println(sb);
