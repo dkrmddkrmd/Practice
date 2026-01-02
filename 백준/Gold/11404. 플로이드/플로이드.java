@@ -2,7 +2,7 @@ import java.util.*;
 import java.io.*;
 
 public class Main{
-    static int INF = 999_999_999;
+    static final int INF = 100_000_000;
 
     public static void  main(String[] args) throws  Exception{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -10,32 +10,27 @@ public class Main{
         int N = Integer.parseInt(br.readLine());
         int M = Integer.parseInt(br.readLine());
 
-        int[][] bus = new int[N+1][N+1];
+        int[][] dist = new int[N+1][N+1];
 
         for(int i = 1; i <= N; i++){
-            for(int j = 1; j <= N; j++){
-                if(i == j)
-                    continue;
-                bus[i][j] = INF;
-            }
+            Arrays.fill(dist[i], INF);
+            dist[i][i] = 0;
         }
 
         StringTokenizer st;
-        while (M-- > 0){
+        for(int i = 0; i < M; i++){
             st = new StringTokenizer(br.readLine());
             int a = Integer.parseInt(st.nextToken());
             int b = Integer.parseInt(st.nextToken());
             int c = Integer.parseInt(st.nextToken());
 
-            bus[a][b] = Math.min(bus[a][b], c);
+            dist[a][b] = Integer.min(dist[a][b], c);
         }
 
-        // [✅] 수정된 루프 순서 (i, j, k 변수 의미 통일)
-        for(int k = 1; k <= N; k++){ // k = 경유지
-            for(int i = 1; i <= N; i++){ // i = 출발지
-                for(int j = 1; j <= N; j++){ // j = 도착지
-                    // i에서 j로 가는 비용 = min(기존 비용, i->k 비용 + k->j 비용)
-                    bus[i][j] = Math.min(bus[i][j], bus[i][k] + bus[k][j]);
+        for(int k = 1; k <= N; k++){
+            for(int i = 1; i <= N; i++){
+                for(int j = 1; j <= N; j++){
+                    dist[i][j] = Integer.min(dist[i][j], dist[i][k] + dist[k][j]);
                 }
             }
         }
@@ -43,11 +38,11 @@ public class Main{
         StringBuilder sb = new StringBuilder();
         for(int i = 1; i <= N; i++){
             for(int j = 1; j <= N; j++){
-                if(bus[i][j] == INF) {
-                    sb.append(0).append(" "); // 👈 INF는 0으로 출력
+                if(dist[i][j] == INF){
+                    sb.append(0).append(" ");
                 }
-                else {
-                    sb.append(bus[i][j]).append(" ");
+                else{
+                    sb.append(dist[i][j]).append(" ");
                 }
             }
             sb.append("\n");
