@@ -8,25 +8,26 @@ public class Main{
 
         int N = Integer.parseInt(st.nextToken());
         int M = Integer.parseInt(st.nextToken());
-        int[] indegree = new int[N+1];
-        ArrayList<Integer>[] arr = new ArrayList[N+1];
 
+        int[] inDegree = new int[N+1];
+        ArrayList<Integer>[] arr = new ArrayList[N+1];
         for(int i = 1; i <= N; i++){
             arr[i] = new ArrayList<>();
         }
 
         for(int i = 0; i < M; i++){
             st = new StringTokenizer(br.readLine());
-            int A = Integer.parseInt(st.nextToken());
-            int B = Integer.parseInt(st.nextToken());
+            int a = Integer.parseInt(st.nextToken());
+            int b = Integer.parseInt(st.nextToken());
 
-            arr[A].add(B);
-            indegree[B]++;
+            arr[a].add(b);
+            inDegree[b]++;
         }
 
         Deque<Integer> dq = new ArrayDeque<>();
+
         for(int i = 1; i <= N; i++){
-            if(indegree[i] == 0)
+            if(inDegree[i] == 0)
                 dq.offerLast(i);
         }
 
@@ -34,11 +35,11 @@ public class Main{
         while (!dq.isEmpty()){
             int now = dq.pollFirst();
             sb.append(now).append(" ");
+
             for(int num : arr[now]){
-                indegree[num]--;
-                if(indegree[num] == 0){
+                inDegree[num]--;
+                if(inDegree[num] == 0)
                     dq.offerLast(num);
-                }
             }
         }
 
