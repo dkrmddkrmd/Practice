@@ -1,59 +1,56 @@
 import java.util.*;
 import java.io.*;
 
-public class Main{
-    public static void  main(String[] args) throws  Exception{
+public class Main {
+    public static void main(String args[]) throws Exception{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         int N = Integer.parseInt(br.readLine());
 
+        long answer = 0;
+
         PriorityQueue<Integer> plus = new PriorityQueue<>(Collections.reverseOrder());
         PriorityQueue<Integer> minus = new PriorityQueue<>();
-
         int zero = 0;
+        int one = 0;
 
         for(int i = 0; i < N; i++){
             int num = Integer.parseInt(br.readLine());
 
-            if(num > 0)
-                plus.add(num);
-            else if(num < 0)
-                minus.add(num);
-            else
+            if(num == 0){
                 zero++;
-        }
-
-
-
-        int ans = 0;
-
-        while (minus.size() >= 2){
-            ans += minus.poll() * minus.poll();
-        }
-
-        if(!minus.isEmpty()){
-            if(zero > 0){
-                minus.poll();
+            }
+            else if(num == 1){
+                one++;
+            }
+            else if(num > 0){
+                plus.offer(num);
             }
             else{
-                ans += minus.poll();
+                minus.offer(num);
             }
         }
 
         while (plus.size() >= 2){
             int num1 = plus.poll();
             int num2 = plus.poll();
-            if(num1 == 1 || num2 == 1){
-                ans += num1 + num2;
-            }
-            else
-                ans += num1 * num2;
+            answer += (num1 * num2);
         }
 
-        if(!plus.isEmpty()){
-            ans += plus.poll();
+        if(!plus.isEmpty())
+            answer += plus.poll();
+
+        while (minus.size() >= 2){
+            int num1 = minus.poll();
+            int num2 = minus.poll();
+            answer += (num1 * num2);
         }
 
-        System.out.println(ans);
+        if(!minus.isEmpty() && zero == 0)
+            answer += minus.poll();
+        
+        answer += one;
+
+        System.out.println(answer);
     }
 }
