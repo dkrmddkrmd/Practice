@@ -1,48 +1,51 @@
 import java.util.*;
 import java.io.*;
 
-public class Main{
-    public static void  main(String[] args) throws  Exception{
+public class Main {
+    public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
 
         int N = Integer.parseInt(st.nextToken());
-        List<List<Integer>> node = new ArrayList<>();
-        for(int i = 0; i <= N; i++){
-            node.add(new ArrayList<>());
+
+        ArrayList<Integer>[] arr = new ArrayList[N+1];
+
+        for(int i = 1; i <= N; i++){
+            arr[i] = new ArrayList<>();
         }
 
-        for(int i = 1; i < N; i++){
+        for(int i = 0; i < N-1; i++){
             st = new StringTokenizer(br.readLine());
-            int p = Integer.parseInt(st.nextToken());
-            int c = Integer.parseInt(st.nextToken());
 
-            node.get(p).add(c);
-            node.get(c).add(p);
+            int first = Integer.parseInt(st.nextToken());
+            int second = Integer.parseInt(st.nextToken());
+
+            arr[first].add(second);
+            arr[second].add(first);
         }
 
-        boolean[] visited = new boolean[N+1];
-        int[] p = new int[N+1];
+        int[] parent = new int[N+1];
+        parent[1] = 1;
 
-        visited[1] = true;
         Deque<Integer> dq = new ArrayDeque<>();
-        dq.offerLast(1);
+        dq.offer(1);
+
         while (!dq.isEmpty()){
             int now = dq.pollFirst();
 
-            for(int c : node.get(now)){
-                if(!visited[c]){
-                    visited[c] = true;
-                    p[c] = now;
-                    dq.offerLast(c);
+            for(int num : arr[now]){
+                if(parent[num] == 0){
+                    parent[num] = now;
+                    dq.offerLast(num);
                 }
             }
         }
 
-        StringBuilder stringBuilder = new StringBuilder();
+        StringBuilder sb = new StringBuilder();
         for(int i = 2; i <= N; i++){
-            stringBuilder.append(p[i]).append("\n");
+            sb.append(parent[i]).append("\n");
         }
-        System.out.println(stringBuilder);
+
+        System.out.println(sb);
     }
 }
