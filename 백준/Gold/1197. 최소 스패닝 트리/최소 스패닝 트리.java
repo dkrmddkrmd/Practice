@@ -1,46 +1,11 @@
 import java.util.*;
 import java.io.*;
 
-class Edge implements Comparable<Edge>{
-    int from;
-    int to;
-    int cost;
-
-    public Edge(int from, int to, int cost) {
-        this.from = from;
-        this.to = to;
-        this.cost = cost;
-    }
-
-    public int compareTo(Edge o){
-        return this.cost - o.cost;
-    }
-}
-
-public class Main{
-    static int V, E;
-
+public class Main {
     static int[] parent;
-    static List<Edge> edges;
+    static ArrayList<Vertex> adj;
 
-    static int find(int x){
-        if(x == parent[x])
-            return x;
-
-        return parent[x] = find(parent[x]);
-    }
-
-    static void union(int x, int y){
-        int rootX = find(x);
-        int rootY = find(y);
-
-        if(rootX == rootY)
-            return;
-
-        parent[rootY] = rootX;
-    }
-
-    public static void  main(String[] args) throws  Exception{
+    public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
 
@@ -51,33 +16,68 @@ public class Main{
         for(int i = 1; i <= V; i++){
             parent[i] = i;
         }
-        edges = new ArrayList<>();
+
+        adj = new ArrayList<>();
 
         for(int i = 0; i < E; i++){
             st = new StringTokenizer(br.readLine());
+
             int A = Integer.parseInt(st.nextToken());
             int B = Integer.parseInt(st.nextToken());
             int C = Integer.parseInt(st.nextToken());
 
-            edges.add(new Edge(A, B, C));
+            adj.add(new Vertex(A, B, C));
         }
 
-        Collections.sort(edges);
+        Collections.sort(adj);
 
-        int totalSum = 0;
-        int totalEdge = 0;
+        int connection = 0;
+        int ans = 0;
 
-        for(Edge edge : edges){
-            if(find(edge.from) != find(edge.to)){
-                union(edge.from, edge.to);
-                totalSum += edge.cost;
-                totalEdge++;
-                if(totalEdge == V - 1){
-                    break;
-                }
+        for(int i = 0; i < E && (connection != V - 1); i++){
+            Vertex v = adj.get(i);
+
+            int a = v.from;
+            int b = v.to;
+
+            if(find(a) != find(b)){
+                union(a, b);
+                connection++;
+                ans += v.weight;
             }
         }
 
-        System.out.println(totalSum);
+        System.out.println(ans);
+    }
+
+    static class Vertex implements Comparable<Vertex>{
+        int from;
+        int to;
+        int weight;
+
+        public Vertex(int from, int to, int weight) {
+            this.from = from;
+            this.to = to;
+            this.weight = weight;
+        }
+
+        public int compareTo(Vertex o){
+            return this.weight - o.weight;
+        }
+    }
+
+    static void union(int x, int y){
+        int rootX = find(x);
+        int rootY = find(y);
+
+        if(rootX != rootY)
+            parent[rootY] = rootX;
+    }
+
+    static int find(int x){
+        if(x == parent[x])
+            return x;
+
+        return parent[x] = find(parent[x]);
     }
 }
