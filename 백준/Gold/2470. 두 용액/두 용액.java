@@ -1,42 +1,51 @@
 import java.util.*;
 import java.io.*;
 
-public class Main{
-    public static void  main(String[] args) throws  Exception{
+public class Main {
+    public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
 
-        int N = Integer.parseInt(st.nextToken());
+        int N = Integer.parseInt(br.readLine());
+
         int[] arr = new int[N];
 
-        st = new StringTokenizer(br.readLine());
+        StringTokenizer st = new StringTokenizer(br.readLine());
+
         for(int i = 0; i < N; i++){
             arr[i] = Integer.parseInt(st.nextToken());
         }
 
         Arrays.sort(arr);
 
+
         int start = 0;
-        int end = N-1;
-        long A = -1, B = -1; // 정답
-        long diff = Integer.MAX_VALUE;
+        int end = N -1;
+
+        int first = 0, second = 0;
+        int ans = Integer.MAX_VALUE;
 
         while (start < end){
-            long nowDiff = arr[end] + arr[start];
-            long absDiff = (long)Math.abs(nowDiff);
-            if(absDiff < diff){
-                diff = absDiff;
-                A = arr[start];
-                B = arr[end];
-            }
+            int sum = arr[start] + arr[end];
 
-            if(nowDiff < 0){
-                start++;
+            if(Math.abs(ans) > Math.abs(sum)){
+                ans = sum;
+                first = arr[start];
+                second = arr[end];
+                if(sum > 0)
+                    end--;
+                else
+                    start++;
             }
-            else
-                end--;
+            else{
+                if(sum > 0)
+                    end--;
+                else
+                    start++;
+            }
         }
 
-        System.out.println(A + " " + B);
+        StringBuilder sb = new StringBuilder();
+        sb.append(first).append(" ").append(second);
+        System.out.println(sb);
     }
 }
