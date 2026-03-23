@@ -83,7 +83,7 @@ public class Main {
                 //0인지 확인
                 if(nowBlocks[i][j] == 0)
                     continue;
-                
+
                 // 현재 위치 [i][j], 현재 값 num
                 int num = nowBlocks[i][j];
                 nowBlocks[i][j] = 0;
@@ -117,6 +117,10 @@ public class Main {
         //오른쪽
         for(int i = 0; i < N; i++){
             for(int j = N-2; j >= 0; j--){
+                //0인지 확인
+                if(nowBlocks[i][j] == 0)
+                    continue;
+                
                 // 현재 위치 [i][j], 현재 값 num
                 int num = nowBlocks[i][j];
                 nowBlocks[i][j] = 0;
@@ -150,6 +154,10 @@ public class Main {
         //아래
         for(int i = N - 2; i >= 0; i--){
             for(int j = 0; j < N; j++){
+                //0인지 확인
+                if(nowBlocks[i][j] == 0)
+                    continue;
+                
                 // 현재 위치 [i][j], 현재 값 num
                 int num = nowBlocks[i][j];
                 nowBlocks[i][j] = 0;
@@ -183,6 +191,10 @@ public class Main {
         //왼쪽
         for(int i = 0; i < N; i++){
             for(int j = 1; j < N; j++){
+                //0인지 확인
+                if(nowBlocks[i][j] == 0)
+                    continue;
+                
                 // 현재 위치 [i][j], 현재 값 num
                 int num = nowBlocks[i][j];
                 nowBlocks[i][j] = 0;
