@@ -80,6 +80,10 @@ public class Main {
         //위
         for(int i = 1; i < N; i++){
             for(int j = 0; j < N; j++){
+                //0인지 확인
+                if(nowBlocks[i][j] == 0)
+                    continue;
+                
                 // 현재 위치 [i][j], 현재 값 num
                 int num = nowBlocks[i][j];
                 nowBlocks[i][j] = 0;
