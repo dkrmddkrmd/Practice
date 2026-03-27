@@ -1,83 +1,78 @@
 import java.util.*;
 import java.io.*;
 
-// (★) '간선' 자체를 저장하는 클래스 (이름을 Edge로 바꾸는 게 명확함)
-class Edge {
-    int from; // 시작
-    int to;   // 도착
-    int cost; // 비용
+class Node{
+    int from;
+    int to;
+    int weight;
 
-    public Edge(int from, int to, int cost) {
+    public Node(int from, int to, int weight){
         this.from = from;
         this.to = to;
-        this.cost = cost;
+        this.weight = weight;
     }
 }
 
-public class Main{
-    static long maxVal = 999_999_999L;
+public class Main {
+    static final int MaxVal = 1_000_000_000;
+    static int N, M;
+    static Node[] edges;
+    static long[] dist;
 
-    public static void  main(String[] args) throws  Exception{
+    public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
 
-        int N = Integer.parseInt(st.nextToken());
-        int M = Integer.parseInt(st.nextToken());
+        N = Integer.parseInt(st.nextToken());
+        M = Integer.parseInt(st.nextToken());
 
-        // (★) '간선' M개를 저장할 1차원 배열
-        Edge[] edges = new Edge[M];
-        long[] dist = new long[N+1];
-        Arrays.fill(dist, maxVal);
+        edges = new Node[M];
+        dist = new long[N+1];
+
+        Arrays.fill(dist, MaxVal);
+        dist[1] = 0;
 
         for(int i = 0; i < M; i++){
             st = new StringTokenizer(br.readLine());
+
             int A = Integer.parseInt(st.nextToken());
             int B = Integer.parseInt(st.nextToken());
             int C = Integer.parseInt(st.nextToken());
 
-            // (★) 0번부터 M-1번까지 i 인덱스에 간선 객체를 저장
-            edges[i] = new Edge(A, B, C);
+            edges[i] = new Node(A, B, C);
         }
 
-        dist[1] = 0;
-
-        for(int i = 1; i < N; i++){
+        for(int i = 0; i < N - 1; i++){
             for(int j = 0; j < M; j++){
-                Edge edge = edges[j];
+                Node now = edges[j];
 
-                if(dist[edge.from] != maxVal){
-                    if(dist[edge.to] > dist[edge.from] + edge.cost){
-                        dist[edge.to] = dist[edge.from] + edge.cost;
-                    }
-                }
+                if(dist[now.from] != MaxVal && dist[now.from] + now.weight < dist[now.to])
+                    dist[now.to] = dist[now.from] + now.weight;
             }
         }
-
 
         boolean isCycle = false;
-        for(int j = 0; j < M; j++){
-            Edge edge = edges[j];
 
-            if(dist[edge.from] != maxVal){
-                if(dist[edge.to] > dist[edge.from] + edge.cost){
-                    isCycle = true;
-                    break;
-                }
+        for(int j = 0; j < M; j++){
+            Node now = edges[j];
+
+            if(dist[now.from] != MaxVal && dist[now.from] + now.weight < dist[now.to]){
+                isCycle = true;
+                break;
             }
+        }
+
+        if(isCycle){
+            System.out.println(-1);
+            return;
         }
 
         StringBuilder sb = new StringBuilder();
-        if(isCycle)
-            System.out.println(-1);
-        else{
-            for(int i = 2; i <= N; i++){
-                if(dist[i] == maxVal){
-                    sb.append(-1).append("\n");
-                }
-                else{
-                    sb.append(dist[i]).append("\n");
-                }
-            }
+        for(int i = 2; i <= N; i++){
+            if(dist[i] == MaxVal)
+                sb.append(-1).append("\n");
+            else
+                sb.append(dist[i]).append("\n");
         }
 
         System.out.println(sb);
