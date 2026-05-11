@@ -1,48 +1,50 @@
 import java.util.*;
 
 class Solution {
+    static int N;
+    static int[][] Q;
+    static int[] ANS;
+    static int answer = 0;
+    static Set<Integer> picked;
+    
     public int solution(int n, int[][] q, int[] ans) {
-        int answer = 0;        
-        Set<Integer> s = new HashSet<>();
+        N = n;
+        Q = q;
+        ANS = ans;
         
-        for(int i = 1; i <= n - 4; i++){
-            s.add(i);
-            for(int j = i + 1; j <= n - 3; j++){
-                s.add(j);
-                for(int k = j + 1; k <= n - 2; k++){
-                    s.add(k);
-                    for(int l = k + 1; l <= n - 1; l++){
-                        s.add(l);
-                        for(int m = l + 1; m <= n; m++){
-                            s.add(m);
-                            boolean isAns = true;
-                            
-                            for(int o = 0; o < q.length; o++){
-                                int countAns = 0;
-                                for(int p = 0; p < 5; p++){
-                                    if(s.contains(q[o][p]))
-                                        countAns++;
-                                }
-                                if(countAns != ans[o]){
-                                    isAns = false;
-                                    break;
-                                }
-                            }
-                            
-                            if(isAns)
-                                answer++;
-                            
-                            s.remove(m);
-                        }
-                        s.remove(l);
-                    }
-                    s.remove(k);
-                }
-                s.remove(j);
-            }
-            s.remove(i);
-        }
+        picked = new HashSet<>();
+        
+        dfs(1, 0);
         
         return answer;
+    }
+    
+    static void dfs(int start, int depth){
+        if(depth == 5){
+            if(findAns())
+                answer++;
+            return;
+        }
+        
+        for(int i = start; i <= N; i++){
+            picked.add(i);
+            
+            dfs(i + 1, depth + 1);
+            
+            picked.remove(i);
+        }
+    }
+    
+    static boolean findAns(){
+        for(int i = 0; i < Q.length; i++){
+            int count = 0;
+            for(int j = 0; j < Q[i].length; j++){
+                if(picked.contains(Q[i][j]))
+                    count++;
+            }
+            if(count != ANS[i])
+                return false;
+        }
+        return true;
     }
 }
